@@ -1,0 +1,36 @@
+name: "Terragrunt Static Test Action"
+description: "Terragrunt Static Test Action"
+inputs:
+  working_directory:
+    required: true
+    description: ""
+  google_credentials:
+    required: true
+    description: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Interact with Terragrunt
+      run: terragrunt --version
+      shell: bash
+    # - name: terragrunt formatting check
+    #   shell: bash
+    #   # run: terragrunt hclfmt --terragrunt-non-interactive --terragrunt-check --terragrunt-diff
+    #   run: terragrunt hclfmt --terragrunt-non-interactive --terragrunt-diff --terragrunt-check
+    #   continue-on-error: true
+    #   working-directory: ${{ inputs.working_directory }}
+    - name: Terragrunt Init
+      id: init
+      run: terragrunt run-all init --terragrunt-non-interactive
+      shell: bash
+      env:
+        GOOGLE_CREDENTIALS: ${{ inputs.google_credentials }}
+        # GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      working-directory: ${{ inputs.working_directory }}
+    - name: Terragrunt Validate
+      run: terragrunt run-all validate
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+      env:
+        GOOGLE_CREDENTIALS: ${{ inputs.google_credentials }}

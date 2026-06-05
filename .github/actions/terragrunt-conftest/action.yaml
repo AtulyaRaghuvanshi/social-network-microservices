@@ -1,0 +1,27 @@
+name: "Terragrunt Static Test Action"
+description: "Terragrunt Static Test Action"
+inputs:
+  conftest_version:
+    required: false
+    description: ""
+    default: "0.42.0"
+  working_directory:
+    required: true
+    description: ""
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install conftest
+      shell: bash
+      run: |
+        go install github.com/open-policy-agent/conftest@v${{ inputs.conftest_version }}
+    - name: Run conftest terragrunt policy
+      shell: bash
+      id: conftest_tg_policy
+      working-directory: ${{ inputs.working_directory }}
+      continue-on-error: true
+      run: |
+        conftest test --policy ../../conftest_policies/terragrunt_tags.rego . --ignore='\.terragrunt-cache/|terraform\.lock\.hcl|env\.hcl' --no-fail -o github
+        conftest test --policy ../../conftest_policies/env_test.rego ./env.hcl --ignore='\.terragrunt-cache/|terraform\.lock\.hcl' --no-fail -o github
