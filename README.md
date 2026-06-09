@@ -10,6 +10,45 @@ This project is a distributed social media backend built with multiple services.
 - Backend-for-frontend service to simplify communication between clients and backend services.
 - Request logging with unique request IDs for easier debugging across services.
 
+                     +------------------+
+                     |      Client      |
+                     +--------+---------+
+                              |
+                              v
+                   +----------------------+
+                   | Backend For Frontend |
+                   |      (BFF)           |
+                   +----------+-----------+
+                              |
+          +-------------------+------------------+
+          |                                      |
+          v                                      v
+
++-------------------+             +----------------------+
+|   Auth Service    |             |   Main Service       |
+| (Keycloak Based)  |             | Social Features      |
++---------+---------+             +----------+-----------+
+          |                                   |
+          v                                   v
+
++-------------------+             +----------------------+
+|    Keycloak       |             | PostgreSQL           |
+| Identity Provider |             | Posts / Users / etc  |
++-------------------+             +----------------------+
+
+          |
+          v
+
++-------------------+
+| Email Service     |
+| Verification      |
++---------+---------+
+          |
+          v
++-------------------+
+| MongoDB           |
++-------------------+
+
 ## Tools and Technologies
 
 - Python
