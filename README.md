@@ -23,22 +23,18 @@ This project is a distributed social media backend built with multiple services.
           +-------------------+------------------+
           |                                      |
           v                                      v
-
 +-------------------+             +----------------------+
 |   Auth Service    |             |   Main Service       |
 | (Keycloak Based)  |             | Social Features      |
 +---------+---------+             +----------+-----------+
           |                                   |
           v                                   v
-
 +-------------------+             +----------------------+
 |    Keycloak       |             | PostgreSQL           |
 | Identity Provider |             | Posts / Users / etc  |
 +-------------------+             +----------------------+
-
           |
           v
-
 +-------------------+
 | Email Service     |
 | Verification      |
